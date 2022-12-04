@@ -83,3 +83,4 @@ installed.
 - Implement classes for each command to encapsulate their logic and have better separation of concerns between the main console application and the handling of various commands
 	- The command design pattern can be considered for this implementation
 - Exception Handling when reading inputs should catch more specific exceptions instead of just one generic catch all exception
+- More information feedback messages for users to understand why a command failed
