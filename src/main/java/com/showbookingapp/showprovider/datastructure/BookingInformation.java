@@ -41,9 +41,8 @@ public class BookingInformation {
 	public void setSeatsBooked(List<String> seatsBooked) {
 		this.seatsBooked = seatsBooked;
 	}
-	@Override
-	public String toString() {
-		return "BookingInformation [ticketNum=" + ticketNum + ", phoneNum=" + phoneNum + ", bookingConfirmationTime="
-				+ bookingConfirmationTime + ", seatsBooked=" + seatsBooked + "]";
+	
+	public String toBookingDetailsString() {
+		return "Booking Detail - ticket no.: " + ticketNum + ", phone number: " + phoneNum + ", seats booked: " + seatsBooked + "]";
 	}
 }

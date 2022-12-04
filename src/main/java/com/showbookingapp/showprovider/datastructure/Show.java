@@ -1,9 +1,13 @@
 package com.showbookingapp.showprovider.datastructure;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.showbookingapp.showprovider.comparator.SeatsComparator;
 
 public class Show {
 	
@@ -82,8 +86,29 @@ public class Show {
 		}
 	}
 	
-	@Override
-	public String toString() {
-		return "Show [showNumber=" + showNumber + ", seatsForShow=" + seatsForShow + ", bookings=" + bookings + "]";
+	public void printBookings() {
+		for (Map.Entry<String, BookingInformation> booking : this.bookings.entrySet()) {
+			System.out.println(booking.getValue().toBookingDetailsString());
+		}
+	}
+	
+	public void printAvailableSeats() {
+		List<String> seats = new ArrayList<String>();
+		
+		for (Map.Entry<String, Integer> seatAvailability : this.seatsForShow.entrySet()) {
+			if (seatAvailability.getValue() == SEAT_AVAILABLE) {
+				seats.add(seatAvailability.getKey());
+			}
+		}
+		
+		Collections.sort(seats, new SeatsComparator());
+		
+		for (int i=0; i<seats.size(); i++) {
+			System.out.print(seats.get(i) + " ");
+			if ((i + 1 < seats.size()) && (seats.get(i+1).charAt(0) != seats.get(i).charAt(0))) {
+				System.out.println("");
+			}
+			
+		}
 	}
 }
