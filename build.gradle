@@ -26,4 +26,4 @@ run {
 	standardInput = System.in
 }
 
-mainClassName = 'com.showbookingapp.showprovider.ShowproviderApplication'
+mainClassName = 'com.showbookingapp.showprovider.ShowProviderApplication'
