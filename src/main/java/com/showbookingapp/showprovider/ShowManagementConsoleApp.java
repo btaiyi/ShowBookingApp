@@ -19,6 +19,15 @@ public class ShowManagementConsoleApp implements CommandLineRunner {
 	private ShowManagementService showManagementService;
 	private TicketManagementService ticketManagementService;
 	
+	private static final String SETUP_COMMAND = "setup";
+	private static final String VIEW_COMMAND = "view";
+	private static final String AVAIL_COMMAND = "availability";
+	private static final String BOOK_COMMAND = "book";
+	private static final String CANCEL_COMMAND = "cancel";
+	
+	private static final String COMMANDS_COMMAND = "commands";
+	private static final String EXIT_COMMAND = "exit";
+	
 	@Autowired
 	public ShowManagementConsoleApp(ShowManagementService showManagementService, TicketManagementService ticketManagementService) {
 		this.inputReader = new Scanner(System.in);
@@ -51,6 +60,10 @@ public class ShowManagementConsoleApp implements CommandLineRunner {
 		System.out.println("book <Show Number> <Phone#> <Comma separated list of seats>");
 		
 		System.out.println("cancel <Ticket#> <Phone#>");
+		
+		System.out.println("\n----- MISC COMMANDS -----");
+		
+		System.out.println("exit");
 	}
 	
 	private void handleCommand() {
@@ -58,25 +71,25 @@ public class ShowManagementConsoleApp implements CommandLineRunner {
 			String command = inputReader.next();
 			
 			switch(command.toLowerCase()) {
-				case "setup":
+				case SETUP_COMMAND:
 					handleSetupCommand();
 					break;
-				case "view":
+				case VIEW_COMMAND:
 					handleViewCommand();
 					break;
-				case "availability":
+				case AVAIL_COMMAND:
 					handleAvailabilityCommand();
 					break;
-				case "book":
+				case BOOK_COMMAND:
 					handleBookCommand();
 					break;
-				case "cancel":
+				case CANCEL_COMMAND:
 					handleCancelCommand();
 					break;
-				case "commands":
+				case COMMANDS_COMMAND:
 					printCommands();
 					break;
-				case "exit":
+				case EXIT_COMMAND:
 					handleExitCommand();
 				default:
 					System.out.println("Did not understand command. Please try again!");
