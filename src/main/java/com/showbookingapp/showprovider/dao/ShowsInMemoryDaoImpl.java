@@ -62,13 +62,13 @@ public class ShowsInMemoryDaoImpl implements ShowsDao {
 		return isSeatsAvailable;
 	}
 
-	private BookingInformation getBooking(int showNum, String phoneNumber) {
+	private boolean hasExistingBooking(int showNum, String phoneNumber) {
 		BookingInformation booking = null;
 		Show theShow = this.getShow(showNum);
 		if (theShow != null) {
 			booking = theShow.getBooking(phoneNumber);
 		}
-		return booking;
+		return booking != null;
 	}
 
 	@Override
@@ -85,7 +85,7 @@ public class ShowsInMemoryDaoImpl implements ShowsDao {
 	private boolean isValidBooking(int showNum, String phoneNum, List<String> seatsToBook) {
 		return this.getShow(showNum) != null				&&
 			   this.isSeatsAvailable(showNum, seatsToBook)	&&
-			   this.getBooking(showNum, phoneNum) == null;
+			   !this.hasExistingBooking(showNum, phoneNum);
 	}
 	
 	
