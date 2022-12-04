@@ -1,10 +1,12 @@
-package com.showbookingapp.service;
+package com.showbookingapp.showprovider.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import com.showbookingapp.dao.ShowsDao;
-import com.showbookingapp.datastructure.Show;
+import com.showbookingapp.showprovider.dao.ShowsDao;
+import com.showbookingapp.showprovider.datastructure.Show;
 
+@Service
 public class ShowManagementServiceImpl implements ShowManagementService {
 
 	private ShowsDao showsDao;

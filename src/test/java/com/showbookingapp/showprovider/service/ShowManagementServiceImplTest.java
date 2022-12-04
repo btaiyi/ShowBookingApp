@@ -1,4 +1,4 @@
-package com.showbookingapp.service;
+package com.showbookingapp.showprovider.service;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -9,7 +9,8 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.showbookingapp.dao.ShowsInMemoryDaoImpl;
+import com.showbookingapp.showprovider.dao.ShowsInMemoryDaoImpl;
+import com.showbookingapp.showprovider.service.ShowManagementServiceImpl;
 
 public class ShowManagementServiceImplTest {
 	

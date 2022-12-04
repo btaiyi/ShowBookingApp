@@ -1,6 +1,6 @@
-package com.showbookingapp.service;
+package com.showbookingapp.showprovider.service;
 
-import com.showbookingapp.datastructure.Show;
+import com.showbookingapp.showprovider.datastructure.Show;
 
 public interface ShowManagementService {
 	
