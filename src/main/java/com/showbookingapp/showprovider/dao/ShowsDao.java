@@ -11,4 +11,8 @@ public interface ShowsDao {
 	public Show getShow(int showNum);
 	
 	public boolean createBooking(int showNum, String phoneNum, List<String> seats, int ticketNum);
+	
+	public boolean cancelBooking(int showNum, String phoneNum, int ticketNum);
+	
+	
 }

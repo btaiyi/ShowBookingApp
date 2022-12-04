@@ -65,9 +65,20 @@ public class Show {
 	
 	public void addBooking(int ticketNum,String phoneNum, Instant bookingConfirmationTime, List<String> seats) {
 		this.bookings.put(phoneNum, new BookingInformation(ticketNum, phoneNum, bookingConfirmationTime, seats));
-		System.out.println("Booking created, phoneNum: " + phoneNum + ", BookingInfo: " + this.bookings.get(phoneNum));
 		for (String seat : seats) {
 			this.seatsForShow.put(seat, SEAT_UNAVAILABLE);
+		}
+	}
+	
+	public void removeBooking(String phoneNum) {
+		BookingInformation booking = this.bookings.getOrDefault(phoneNum, null);
+		
+		if(booking != null) {
+			for (String bookedSeats : booking.getSeatsBooked()) {
+				this.seatsForShow.put(bookedSeats, SEAT_AVAILABLE);
+			}
+			
+			this.bookings.remove(phoneNum);
 		}
 	}
 	

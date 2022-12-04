@@ -35,6 +35,7 @@ class ShowsInMemoryDaoImplTest {
 	private static final int TICKET_NUM = 1;
 	private static final String PHONE_NUM_2 = "123456781";
 	private static final int TICKET_NUM_2 = 2;
+	private static final int INVALID_TICKET_NUM = -1;
 	
 	@BeforeEach
 	void setup() {
@@ -85,9 +86,6 @@ class ShowsInMemoryDaoImplTest {
 		assertFalse(this.showsDaoTest.createShow(SHOW_NUM, INVALID_ROWS, NUM_SEATS_PER_ROW, CANCELLATION_WINDOW));
 		
 		assertNull(this.showsDaoTest.getShow(SHOW_NUM));
-		
-		// this.showsDaoTest.createShow(SHOW_NUM, INVALID_ROWS_MAX, NUM_SEATS_PER_ROW, CANCELLATION_WINDOW);
-		// assertNull(this.showsDaoTest.getShow(SHOW_NUM));
 	}
 	
 	@Test
@@ -95,9 +93,6 @@ class ShowsInMemoryDaoImplTest {
 		assertFalse(this.showsDaoTest.createShow(SHOW_NUM, NUM_ROWS, INVALID_SEATS_PER_ROW, CANCELLATION_WINDOW));
 		
 		assertNull(this.showsDaoTest.getShow(SHOW_NUM));
-		
-		// this.showsDaoTest.createShow(SHOW_NUM, NUM_ROWS, INVALID_SEATS_PER_ROW_MAX, CANCELLATION_WINDOW);
-		// assertNull(this.showsDaoTest.getShow(SHOW_NUM));
 	}
 	
 	@Test
@@ -108,7 +103,7 @@ class ShowsInMemoryDaoImplTest {
 	}
 	
 	@Test
-	void givenValidSeatsThenShouldReturnTrue() {
+	void givenValidSeatsThenCreateBookingShouldReturnTrue() {
 		assertTrue(this.showsDaoTest.createShow(SHOW_NUM, NUM_ROWS, NUM_SEATS_PER_ROW, CANCELLATION_WINDOW));
 		
 		List<String> seats = new ArrayList<String>();
@@ -118,7 +113,7 @@ class ShowsInMemoryDaoImplTest {
 	}
 	
 	@Test
-	void givenInvalidSeatsThenShouldReturnFalse() {
+	void givenInvalidSeatsThenCreateBookingShouldReturnFalse() {
 		assertTrue(this.showsDaoTest.createShow(SHOW_NUM, NUM_ROWS, NUM_SEATS_PER_ROW, CANCELLATION_WINDOW));
 		
 		List<String> seats = new ArrayList<String>();
@@ -128,7 +123,7 @@ class ShowsInMemoryDaoImplTest {
 	}
 	
 	@Test
-	void givenUnavailableSeatsThenShouldReturnFalse() {
+	void givenUnavailableSeatsThenCreateBookingShouldReturnFalse() {
 		assertTrue(this.showsDaoTest.createShow(SHOW_NUM, NUM_ROWS, NUM_SEATS_PER_ROW, CANCELLATION_WINDOW));
 		
 		List<String> seats = new ArrayList<String>();
@@ -140,7 +135,7 @@ class ShowsInMemoryDaoImplTest {
 	}
 	
 	@Test
-	void givenBookingFromSamePhoneNumShouldReturnFalse() {
+	void givenBookingFromSamePhoneNumThenCreateBookingShouldReturnFalse() {
 		assertTrue(this.showsDaoTest.createShow(SHOW_NUM, NUM_ROWS, NUM_SEATS_PER_ROW, CANCELLATION_WINDOW));
 		
 		List<String> seats = new ArrayList<String>();
@@ -154,13 +149,56 @@ class ShowsInMemoryDaoImplTest {
 	}
 	
 	@Test
-	void givenInvalidShowThenShouldReturnFalse() {
+	void givenInvalidShowThenCreateBookingShouldReturnFalse() {
 		assertTrue(this.showsDaoTest.createShow(SHOW_NUM, NUM_ROWS, NUM_SEATS_PER_ROW, CANCELLATION_WINDOW));
 		
 		List<String> seats = new ArrayList<String>();
 		seats.add("A1");
 
 		assertFalse(this.showsDaoTest.createBooking(INVALID_SHOW_NUM, PHONE_NUM, seats, TICKET_NUM));
+	}
+	
+	@Test
+	void givenValidShowNumAndTicketNumAndPhoneNumThenCancelBookingShouldReturnTrue() {
+		assertTrue(this.showsDaoTest.createShow(SHOW_NUM, NUM_ROWS, NUM_SEATS_PER_ROW, CANCELLATION_WINDOW));
+		
+		List<String> seats = new ArrayList<String>();
+		seats.add("A1");
+		seats.add("A2");
+		assertTrue(this.showsDaoTest.createBooking(SHOW_NUM, PHONE_NUM, seats, TICKET_NUM));
+		
+		assertTrue(this.showsDaoTest.cancelBooking(SHOW_NUM, PHONE_NUM, TICKET_NUM));
+	}
+	
+	@Test
+	void givenShowNotFoundThenCancelBookingShouldReturnFalse() {		
+		assertTrue(this.showsDaoTest.createShow(SHOW_NUM, NUM_ROWS, NUM_SEATS_PER_ROW, CANCELLATION_WINDOW));
+		
+		assertFalse(this.showsDaoTest.cancelBooking(INVALID_SHOW_NUM, PHONE_NUM, TICKET_NUM));
+	}
+	
+	@Test
+	void givenTicketNumNotFoundThenCancelBookingSHouldReturnFalse() {
+		assertTrue(this.showsDaoTest.createShow(SHOW_NUM, NUM_ROWS, NUM_SEATS_PER_ROW, CANCELLATION_WINDOW));
+		
+		List<String> seats = new ArrayList<String>();
+		seats.add("A1");
+		seats.add("A2");
+		assertTrue(this.showsDaoTest.createBooking(SHOW_NUM, PHONE_NUM, seats, TICKET_NUM));
+		
+		assertFalse(this.showsDaoTest.cancelBooking(SHOW_NUM, PHONE_NUM, INVALID_TICKET_NUM));
+	}
+	
+	@Test
+	void givenPhoneNumNotFoundThenCancelBookingSHouldReturnFalse() {
+		assertTrue(this.showsDaoTest.createShow(SHOW_NUM, NUM_ROWS, NUM_SEATS_PER_ROW, CANCELLATION_WINDOW));
+		
+		List<String> seats = new ArrayList<String>();
+		seats.add("A1");
+		seats.add("A2");
+		assertTrue(this.showsDaoTest.createBooking(SHOW_NUM, PHONE_NUM, seats, TICKET_NUM));
+		
+		assertFalse(this.showsDaoTest.cancelBooking(SHOW_NUM, PHONE_NUM_2, TICKET_NUM));
 	}
 
 }

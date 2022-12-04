@@ -23,11 +23,6 @@ public class ShowsInMemoryDaoImpl implements ShowsDao {
 	public boolean createShow(int showNum, int numRows, int numSeatsPerRow, int cancellationWindow) {
 		if (isValidShowParams(showNum, numRows, numSeatsPerRow, cancellationWindow)) {
 			this.shows.put(showNum, new Show(showNum, numRows, numSeatsPerRow, cancellationWindow));
-			Show theShow = shows.get(showNum);
-			System.out.println("Show Num: " + theShow.getShowNumber());
-			System.out.println("Num Rows: " + theShow.getNumRows());
-			System.out.println("Num Seats per Row: " + theShow.getNumSeatsPerRow());
-			System.out.println("Cancellation Window: " + theShow.getCancellationWindow());
 			return true;
 		}
 		return false;
@@ -49,9 +44,8 @@ public class ShowsInMemoryDaoImpl implements ShowsDao {
 
 	private boolean isSeatsAvailable(int showNum, List<String> seats) {
 		boolean isSeatsAvailable = true;
-		Show theShow = this.getShow(showNum);
-		if (theShow != null) {
-			Map<String, Integer> seatsForShow = theShow.getSeatsForShow();
+		if (this.shows.containsKey(showNum)) {
+			Map<String, Integer> seatsForShow = this.getShow(showNum).getSeatsForShow();
 			for (String seat : seats) {
 				if (seatsForShow.getOrDefault(seat, 0) == 0) {
 					isSeatsAvailable = false;
@@ -62,11 +56,10 @@ public class ShowsInMemoryDaoImpl implements ShowsDao {
 		return isSeatsAvailable;
 	}
 
-	private boolean hasExistingBooking(int showNum, String phoneNumber) {
+	private boolean hasExistingBooking(int showNum, String phoneNum) {
 		BookingInformation booking = null;
-		Show theShow = this.getShow(showNum);
-		if (theShow != null) {
-			booking = theShow.getBooking(phoneNumber);
+		if (this.shows.containsKey(showNum)) {
+			booking = this.getShow(showNum).getBooking(phoneNum);
 		}
 		return booking != null;
 	}
@@ -86,6 +79,19 @@ public class ShowsInMemoryDaoImpl implements ShowsDao {
 		return this.getShow(showNum) != null				&&
 			   this.isSeatsAvailable(showNum, seatsToBook)	&&
 			   !this.hasExistingBooking(showNum, phoneNum);
+	}
+
+	@Override
+	public boolean cancelBooking(int showNum, String phoneNum, int ticketNum) {
+		boolean cancellationSuccess = false;
+		if (this.shows.containsKey(showNum)) {
+			Show theShow = this.getShow(showNum);
+			if (theShow.getBooking(phoneNum) != null && theShow.getBooking(phoneNum).getTicketNum() == ticketNum) {
+				theShow.removeBooking(phoneNum);
+				cancellationSuccess = true;
+			}
+		}
+		return cancellationSuccess;
 	}
 	
 	
