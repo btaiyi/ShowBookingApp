@@ -12,10 +12,6 @@ public class ShowsInMemoryDaoImpl implements ShowsDao {
 	
 	private Map<Integer, Show> shows;
 	
-	// max of 10 seats per row and max 26 rows
-	private static final int MAX_ROWS = 26;
-	private static final int MAX_SEATS_PER_ROW = 10;
-	
 	public ShowsInMemoryDaoImpl() {
 		this.shows = new HashMap<>();
 	}
@@ -33,9 +29,7 @@ public class ShowsInMemoryDaoImpl implements ShowsDao {
 		// ASSUMPTION: Cannot overwrite existing shows that have been created
 		return showNum > 0 							&&
 			   numRows > 0 							&&
-			   numRows <= MAX_ROWS					&&
 			   numSeatsPerRow > 0 					&&
-			   numSeatsPerRow <= MAX_SEATS_PER_ROW	&&
 			   cancellationWindow >= 0				&&
 			   !this.shows.containsKey(showNum);
 	}
