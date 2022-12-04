@@ -70,4 +70,9 @@ public class Show {
 			this.seatsForShow.put(seat, SEAT_UNAVAILABLE);
 		}
 	}
+	
+	@Override
+	public String toString() {
+		return "Show [showNumber=" + showNumber + ", seatsForShow=" + seatsForShow + ", bookings=" + bookings + "]";
+	}
 }
