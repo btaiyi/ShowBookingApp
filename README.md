@@ -84,3 +84,6 @@ installed.
 	- The command design pattern can be considered for this implementation
 - Exception Handling when reading inputs should catch more specific exceptions instead of just one generic catch all exception
 - More information feedback messages for users to understand why a command failed
+- Make ShowManagementConsoleApp more testable
+	- Possibly by attempting to give System.in through constructor injection and in junit test attempt to give my own input stream to the class to simulate user inputs
+	
